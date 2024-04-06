@@ -12,7 +12,9 @@
   "author": "Veronica Steele",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "mongoose": "^6.6.1",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
