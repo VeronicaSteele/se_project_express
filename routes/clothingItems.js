@@ -1,8 +1,9 @@
-const clothingItem = require('../models/clothingItem');
+const router = require('express').Router()
+const {createItem} = require('../controllers/clothingItems');
 
-const createItem = (req, res) => {
-  console.log(req)
-  console.log(req.body)
+router.get("/", ()=> console.log("GET items"));
+router.post("/", createItem);
+router.delete("/",()=>console.log("delete items"))
 
-  // const {name, weather, ImageURL}
-}
+
+module.exports = router;
