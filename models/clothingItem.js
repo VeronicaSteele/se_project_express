@@ -32,7 +32,7 @@ owner:{
 likes:{
   type:[{
     type: mongoose.Schema.Types.ObjectId,
-    ref:"user",
+    ref: 'User'
   }],
   default: []
 },
