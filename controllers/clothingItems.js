@@ -1,32 +1,45 @@
 const ClothingItem = require('../models/clothingItem');
 
-// Function to create a new item
+const getItems = (req, res) => {
+  ClothingItem.find()
+    .then(items => {
+      if (!items) {
+        return res.status(404).json({ message: 'Requested resource not found' });
+      }
+      res.status(200).json(items);
+    })
+    .catch(error => res.status(500).json({ error: 'Server error' }));
+};
+
 const createItem = (req, res) => {
   const { name, weather, imageURL } = req.body;
-  const userId = req.user.id;
   const newItem = new ClothingItem({
     name,
     weather,
-    imageURL,
-    owner: userId
+    imageURL
   });
 
-  ClothingItem.findById(newItem._id)
-    .then(item => {
-      if (item) {
-        return res.status(400).json({ error: 'Resource already exists' });
-      }
+  newItem.save()
+    .then(item => res.status(201).json(item))
+    .catch(error => res.status(400).json({ error: 'Bad request' }));
+};
 
-      newItem.save()
-        .then(item => res.status(201).json(item))
-        .catch(error => res.status(400).json({ error: 'Bad request' }));
+const deleteItem = (req, res) => {
+  const { itemId } = req.params;
+
+  ClothingItem.findByIdAndDelete(itemId)
+    .then(item => {
+      if (!item) {
+        return res.status(404).json({ message: 'Requested resource not found' });
+      }
+      res.status(200).json({ message: 'Item deleted successfully' });
     })
-    .catch(error => {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    });
+    .catch(error => res.status(500).json({ error: 'Server error' }));
 };
 
 module.exports = {
-  createItem
+  getItems,
+  createItem,
+  deleteItem
 };
+
