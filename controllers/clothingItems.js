@@ -13,10 +13,12 @@ const getItems = (req, res) => {
 
 const createItem = (req, res) => {
   const { name, weather, imageURL } = req.body;
+  const ownerId = req.user.id;
   const newItem = new ClothingItem({
     name,
     weather,
-    imageURL
+    imageURL,
+    owner: ownerId
   });
 
   newItem.save()
